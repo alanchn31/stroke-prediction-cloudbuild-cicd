@@ -8,7 +8,7 @@ app = Flask(__name__)
 model = None
 
 def load_model():
-    storage_client = storage.Client() 
+    storage_client = storage.Client()
     bucket_name = "gcp-ml-ops-cloudrun"
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob("model_artifacts/stroke_pred_pipeline.pkl")
