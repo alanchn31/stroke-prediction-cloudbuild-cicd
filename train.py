@@ -8,7 +8,7 @@ import numpy as np
 import optuna
 import pandas as pd
 import xgboost as xgb
-import joblib
+import pickle
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
@@ -107,9 +107,10 @@ def main():
 
     clf.fit(df[feats], df['stroke'].values)
 
-    # Log the model pipeline
-    pipeline_path = 'artifacts/stroke_pred_pipeline.pkl'
-    joblib.dump(clf, pipeline_path)
+    pipeline_path = 'artifacts/stroke_pred_pipeline.pickle'
+
+    with open(pipeline_path, 'wb') as handle:
+        pickle.dump(clf, handle)
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 import pandas as pd
 from flask import Flask, request, jsonify
-import joblib
+import pickle
 import os
 from google.cloud import storage
 
@@ -11,9 +11,10 @@ def load_model():
     storage_client = storage.Client()
     bucket_name = "gcp-ml-ops-cloudrun"
     bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob("model_artifacts/stroke_pred_pipeline.pkl")
-    blob.download_to_filename("stroke_pred_pipeline.pkl")
-    model = joblib.load("stroke_pred_pipeline.pkl")
+    blob = bucket.blob("model_artifacts/stroke_pred_pipeline.pickle")
+    blob.download_to_filename("stroke_pred_pipeline.pickle")
+    with open("stroke_pred_pipeline.pickle", 'rb') as handle:
+        model = pickle.load(handle)
     return model
 
 @app.route('/predict', methods=['POST'])
